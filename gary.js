@@ -1,69 +1,3 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           ______     ______     ______   __  __     __     ______
-          /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
-          \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
-           \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
-            \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
-
-
-This is a sample Slack bot built with Botkit.
-
-This bot demonstrates many of the core features of Botkit:
-
-* Connect to Slack using the real time API
-* Receive messages based on "spoken" patterns
-* Reply to messages
-* Use the conversation system to ask questions
-* Use the built in storage system to store and retrieve information
-  for a user.
-
-# RUN THE BOT:
-
-  Get a Bot token from Slack:
-
-    -> http://my.slack.com/services/new/bot
-
-  Run your bot from the command line:
-
-    token=<MY TOKEN> node slack_bot.js
-
-# USE THE BOT:
-
-  Find your bot inside Slack to send it a direct message.
-
-  Say: "Hello"
-
-  The bot will reply "Hello!"
-
-  Say: "who are you?"
-
-  The bot will tell you its name, where it is running, and for how long.
-
-  Say: "Call me <nickname>"
-
-  Tell the bot your nickname. Now you are friends.
-
-  Say: "who am I?"
-
-  The bot will tell you your nickname, if it knows one for you.
-
-  Say: "shutdown"
-
-  The bot will ask if you are sure, and then shut itself down.
-
-  Make sure to invite your bot into other channels using /invite @<my bot>!
-
-# EXTEND THE BOT:
-
-  Botkit has many features for building cool and useful bots!
-
-  Read all about it here:
-
-    -> http://howdy.ai/botkit
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-
 if (!process.env.token) {
     console.log('Error: Specify token in environment');
     process.exit(1);
@@ -71,15 +5,19 @@ if (!process.env.token) {
 
 var Botkit = require('botkit');
 var os = require('os');
+var _ = require('lodash');
+var mongoStorage = require('botkit-storage-mongo')({mongoUri: 'mongodb://localhost:27017', tables: ['learns']});
 
 var controller = Botkit.slackbot({
-    debug: true
+    debug: true,
+    storage: mongoStorage,
 });
 
 var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
+const LEARN = 'learn';
 
 controller.hears(['(.*)'], 'mention', function(bot, message) {
     console.log('gary hear');
@@ -101,6 +39,18 @@ controller.hears(['(.*)'], 'mention', function(bot, message) {
             bot.reply(message, 'Meow.');
         }
     });
+});
+
+controller.hears([/\?(\w+)*\s(\w+)*\s(.+)*/], 'direct_message,ambient', function(bot, message) {
+    if (message.match[1] === LEARN) {
+        learn(bot, message);
+    }
+});
+
+controller.hears([/\?(\w+)*/], 'direct_message,ambient', function(bot, message) {
+    if (message.match[1] !== LEARN) {
+        fetch(bot, message);
+    }
 });
 
 controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
@@ -243,4 +193,41 @@ function formatUptime(uptime) {
 
     uptime = uptime + ' ' + unit;
     return uptime;
+}
+
+function learn(bot, message) {
+    var id = message.match[2],
+        value = message.match[3]
+    ;
+
+    controller.storage.learns.get(id, function(error, currentValue) {
+        if (error) {
+            currentValue = [];
+        } else {
+            currentValue = JSON.parse(currentValue.value);
+        }
+
+        var newValue = JSON.stringify(currentValue.concat([value]));
+
+        controller.storage.learns.save({id: id, value: newValue}).then(function() {
+            bot.reply(message, 'Okay, learned "' + value + '" to ' + id + '.');
+        });
+    });
+}
+
+function fetch(bot, message) {
+    var id = message.match[1];
+
+    console.log('getting');
+    controller.storage.learns.get(id, function(error, value) {
+        console.log(value, error);
+        if (error) {
+            bot.reply(message, "Sorry, I don't know any responses for" + id + ".");
+            return;
+        }
+
+        var responses = JSON.parse(value.value);
+
+        bot.reply(message, _.sample(responses));
+    });
 }
