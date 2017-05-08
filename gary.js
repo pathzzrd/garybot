@@ -17,7 +17,8 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
-const LEARN = 'learn';
+const LEARN   = 'learn';
+const UNLEARN = 'unlearn';
 
 controller.hears(['(.*)'], 'mention', function(bot, message) {
     console.log('gary hear');
@@ -41,17 +42,24 @@ controller.hears(['(.*)'], 'mention', function(bot, message) {
     });
 });
 
-controller.hears([/\?(\w+)*\s(\w+)*\s(.+)*/], 'direct_message,ambient', function(bot, message) {
-    if (message.match[1] === LEARN) {
+controller.hears([/^\?(\w+)\s+(\w+)\s*(.+)?/], 'direct_message,ambient', function(bot, message) {
+    if (message.match[1] === LEARN && message.match.length > 3) {
         learn(bot, message);
-    }
-});
-
-controller.hears([/\?(\w+)*/], 'direct_message,ambient', function(bot, message) {
-    if (message.match[1] !== LEARN) {
+    } else if (message.match[1] === UNLEARN) {
+        unlearn(bot, message);
+    } else {
         fetch(bot, message);
     }
 });
+
+
+controller.hears([/^\?(\w+)\s*/], 'direct_message,ambient', function(bot, message) {
+    // I don't think this gate is required.
+    if (message.match[1] !== LEARN && message.match[1] !== UNLEARN) {
+        fetch(bot, message);
+    }
+});
+
 
 controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
     var name = message.match[1];
@@ -216,18 +224,57 @@ function learn(bot, message) {
 }
 
 function fetch(bot, message) {
-    var id = message.match[1];
+    var id = message.match[1],
+        response_id = message.match[2]
+    ;
 
-    console.log('getting');
+    console.log('getting ' + id + ',' + response_id);
     controller.storage.learns.get(id, function(error, value) {
         console.log(value, error);
         if (error) {
-            bot.reply(message, "Sorry, I don't know any responses for" + id + ".");
+            bot.reply(message, "Sorry, I don't know anything about \"" + id + ".\"");
             return;
         }
 
         var responses = JSON.parse(value.value);
-
-        bot.reply(message, _.sample(responses));
+        if (isNaN(response_id)) {
+            bot.reply(message, _.sample(responses));
+        } else {
+            bot.reply(message, responses[response_id - 1]);
+        }
     });
+}
+
+function unlearn(bot, message) {
+    var id = message.match[2],
+        response_id = message.match[3]
+    ;
+
+    if (typeof response_id === 'undefined') {
+        bot.reply(message, "Sorry, I need to know what to forget about \"" + id + ".\"");
+        return;
+    }
+
+    controller.storage.learns.get(id, function(error, value) {
+        if (error) {
+            bot.reply(message, "Sorry, I can't unlearn things that I don't know!");
+            return;
+        }
+
+        var responses = JSON.parse(value.value);
+        
+        if (isNaN(response_id)) {
+            responses = responses.filter(function(response) {
+                return response !== response_id;
+            });
+        } else {
+            responses.splice(response_id - 1, 1);
+        }
+
+        var responses_json = JSON.stringify(responses);
+        controller.storage.learns.save({id: id, value: responses_json}).then(function () {
+            bot.reply(message, "Okay, I've forgotten that about \"" + id + ".\"")
+        });
+    });
+    
 }
