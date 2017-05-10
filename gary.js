@@ -214,7 +214,7 @@ function learn(bot, message) {
                 currentValue = JSON.parse(currentValue.value);
             } catch (e) {
                 console.error('#learn JSON.parse ', e);
-                bot.reply('Uh-oh no no!')
+                bot.reply(message, 'Uh-oh no no!')
             }
         }
 
@@ -242,7 +242,7 @@ function fetch(bot, message) {
             responses = JSON.parse(value.value);
         } catch (e) {
             console.error('#fetch JSON.parse ', e);
-            bot.reply('Uh-oh no no!')
+            bot.reply(message, 'Uh-oh no no!')
         }
         if (isNaN(response_id)) {
             bot.reply(message, _.sample(responses));
@@ -272,7 +272,7 @@ function unlearn(bot, message) {
             responses = JSON.parse(value.value);
         } catch (e) {
             console.error('#unlearn JSON.parse ', e);
-            bot.reply('Uh-oh no no!')
+            bot.reply(message, 'Uh-oh no no!')
             return;
         }
 
