@@ -211,14 +211,14 @@ function learn(bot, message) {
             currentValue = [];
         } else {
             try {
-                currentValue = JSON.parse(currentValue.value);
+                currentValue = currentValue.value;
             } catch (e) {
                 console.error('#learn JSON.parse ', e);
-                bot.reply(message, 'Uh-oh no no!')
+                bot.reply(message, 'Uh-oh no no!');
             }
         }
 
-        var newValue = JSON.stringify(currentValue.concat([value]));
+        var newValue = currentValue.concat([value]);
 
         controller.storage.learns.save({ id: id, value: newValue }).then(function() {
             bot.reply(message, 'Okay, learned "' + value + '" to ' + id + '.');
@@ -238,12 +238,14 @@ function fetch(bot, message) {
             return;
         }
         var responses = [];
+
         try {
-            responses = JSON.parse(value.value);
+            responses = value.value;
         } catch (e) {
             console.error('#fetch JSON.parse ', e);
-            bot.reply(message, 'Uh-oh no no!')
+            bot.reply(message, 'Uh-oh no no!');
         }
+
         if (isNaN(response_id)) {
             bot.reply(message, _.sample(responses));
         } else {
@@ -268,11 +270,12 @@ function unlearn(bot, message) {
         }
 
         var responses = [];
+
         try {
-            responses = JSON.parse(value.value);
+            responses = value.value;
         } catch (e) {
             console.error('#unlearn JSON.parse ', e);
-            bot.reply(message, 'Uh-oh no no!')
+            bot.reply(message, 'Uh-oh no no!');
             return;
         }
 
@@ -284,9 +287,8 @@ function unlearn(bot, message) {
             responses.splice(response_id - 1, 1);
         }
 
-        var responses_json = JSON.stringify(responses);
-        controller.storage.learns.save({ id: id, value: responses_json }).then(function() {
-            bot.reply(message, "Okay, I've forgotten that about \"" + id + ".\"")
+        controller.storage.learns.save({ id: id, value: responses }).then(function() {
+            bot.reply(message, "Okay, I've forgotten that about \"" + id + ".\"");
         });
     });
 
