@@ -1,4 +1,6 @@
 FROM node:current-alpine
-CMD mkdir /gary
-COPY . /gary
-CMD node /gary/gary.js
+
+WORKDIR /gary
+COPY . .
+RUN npm install
+CMD ["node", "gary.js"]

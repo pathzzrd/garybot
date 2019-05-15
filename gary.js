@@ -1,20 +1,27 @@
-if (!process.env.token) {
-    console.log('Error: Specify token in environment');
+if (!process.env.TOKEN) {
+    console.log('Error: Specify TOKEN in environment');
+    process.exit(1);
+}
+
+if (!process.env.MONGOPASS) {
+    console.log('Error: Specify MONGOPASS in environment');
     process.exit(1);
 }
 
 var Botkit = require('botkit');
 var os = require('os');
 var _ = require('lodash');
-var mongoStorage = require('botkit-storage-mongo')({ mongoUri: 'mongodb://localhost:27017', tables: ['learns'] });
+
+var mongoUri = `mongodb+srv://gary:${process.env.MONGOPASS}@garyville-forjf.mongodb.net/test?retryWrites=true`
+var storage = require('botkit-storage-mongo')({ mongoUri: mongoUri, tables: ['learns'] });
 
 var controller = Botkit.slackbot({
     debug: true,
-    storage: mongoStorage,
+    storage: storage,
 });
 
 var bot = controller.spawn({
-    token: process.env.token
+    token: process.env.TOKEN
 }).startRTM();
 
 const LEARN = 'learn';
