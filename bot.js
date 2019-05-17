@@ -17,6 +17,11 @@ const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 // Load process.env values from .env file
 require('dotenv').config();
 
+if (!process.env.MONGO_URI || !process.env.verificationToken || !process.env.clientSigningSecret) {
+  console.error("ERROR: Missing ENV 'MONGO_URI' or 'verificationToken' or 'clientSigningSecret'");
+  process.exit(1);
+}
+
 let storage = null;
 if (process.env.MONGO_URI) {
     storage = mongoStorage = new MongoDbStorage({
