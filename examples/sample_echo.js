@@ -5,13 +5,14 @@
 
 module.exports = function(controller) {
 
+    // match a single string
     controller.hears('sample','message', async(bot, message) => {
         await bot.reply(message, 'I heard a sample message.');
     });
 
-    // Echo function
-    //controller.on('message', async(bot, message) => {
-    //    await bot.reply(message, `Echo: ${ message.text }`);
-    //});
+    // echo message back to user
+    controller.on('message', async(bot, message) => {
+        await bot.reply(message, `Echo: ${ message.text }`);
+    });
 
 }
