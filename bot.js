@@ -17,8 +17,8 @@ const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 // Load process.env values from .env file
 require('dotenv').config();
 
-if (!process.env.MONGO_URI || !process.env.verificationToken || !process.env.clientSigningSecret) {
-  console.error("ERROR: Missing ENV 'MONGO_URI' or 'verificationToken' or 'clientSigningSecret'");
+if (!process.env.MONGO_URI || !process.env.botToken || !process.env.clientSigningSecret) {
+  console.error("ERROR: Missing ENV 'MONGO_URI' or 'botToken' or 'clientSigningSecret'");
   process.exit(1);
 }
 
@@ -31,7 +31,6 @@ if (process.env.MONGO_URI) {
 
 const adapter = new SlackAdapter({
     // parameters used to secure webhook endpoint
-    verificationToken: process.env.verificationToken,
     clientSigningSecret: process.env.clientSigningSecret,
 
     // auth token for a single-team app
