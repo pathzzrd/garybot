@@ -7,8 +7,10 @@ module.exports = function(controller) {
 
     controller.hears(/^!\w+/, ['message','direct_message'], async function (bot, message) {
         regex = /^!(\w+) ?(.*)$/;
-        var c = [...message.text.matchAll(regex)];
-        await bot.replyEphemeral(message, `lol ${c[1]}`);
+        var text = message.text;
+        var matches = [...text.matchAll(regex)];
+        console.log(matches);
+        await bot.reply(message, `lol ${matches.join()}`);
     });
 
     function getCommand(message) {
