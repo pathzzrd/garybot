@@ -6,6 +6,8 @@ const { SlackDialog } = require('botbuilder-adapter-slack');
 
 module.exports = function(controller) {
 
+    // multi-team stuff. waits for controller ready before spawning new team
+    // specific controller to message a channel. reads from env vars.
     controller.ready(async () => {
         if (process.env.MYTEAM) {
             let bot = await controller.spawn(process.env.MYTEAM);
@@ -14,27 +16,33 @@ module.exports = function(controller) {
         }
     });
 
+    // direct_message event type exists
     controller.on('direct_message', async(bot, message) => {
         await bot.reply(message,'I heard a private message');
     });
 
+    // start a private conversation with a user.
     controller.hears('dm me', 'message', async(bot, message) => {
         await bot.startPrivateConversation(message.user);
         await bot.say(`Let's talk in private.`);
     });
 
+    // listen for direct_mention events
     controller.on('direct_mention', async(bot, message) => {
         await bot.reply(message, `I heard a direct mention that said "${ message.text }"`);
     });
 
+    // listen for mention events
     controller.on('mention', async(bot, message) => {
         await bot.reply(message, `You mentioned me when you said "${ message.text }"`);
     });
 
+    // send an ephemeral reply. an emphemeral reply can only be seen by the user who triggered it.
     controller.hears('ephemeral', 'message,direct_message', async(bot, message) => {
         await bot.replyEphemeral(message,'This is an ephemeral reply sent using bot.replyEphemeral()!');
     });
 
+    // start a thread and conversation in that thread
     controller.hears('threaded', 'message,direct_message', async(bot, message) => {
         await bot.replyInThread(message,'This is a reply in a thread!');
 
@@ -42,6 +50,7 @@ module.exports = function(controller) {
         await bot.say('And this should also be in that thread!');
     });
 
+    // example sending formatted block elements including buttons.
     controller.hears('blocks', 'message', async(bot, message) => {
 
         await bot.reply(message,{
@@ -132,10 +141,12 @@ module.exports = function(controller) {
 
     });
 
+    // interact with button data
     controller.on('block_actions', async (bot, message) => {
         await bot.reply(message, `Sounds like your choice is ${ message.incoming_message.channelData.actions[0].value }`)
     });
 
+    // example slash command handler
     controller.on('slash_command', async(bot, message) => {
         if (message.text === 'plain') {
             await bot.reply(message, 'This is a plain reply');
