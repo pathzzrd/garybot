@@ -10,7 +10,7 @@ module.exports = function(controller) {
         var text = message.text;
         var matches = [...text.matchAll(regex)];
         console.log(matches);
-        await bot.reply(message, `lol ${matches.join()}`);
+        await bot.reply(message, `lol evenmore ${matches.join()}`);
     });
 
     function getCommand(message) {
