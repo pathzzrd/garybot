@@ -2,6 +2,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/gary-image', '.' ]
 - name: 'gcr.io/cloud-builders/gcloud-slim'
-  args: [ 'compute', 'ssh', 'gary-template-5', '--zone', 'us-central1-c', '--command', 'shutdown -r +1' ]
+  args: [ 'compute', 'ssh', 'gary-template-5', '--zone', 'us-central1-c', '--internal-ip', '--command', 'shutdown -r +1' ]
 images:
 - 'gcr.io/$PROJECT_ID/gary-image'
