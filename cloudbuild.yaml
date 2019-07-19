@@ -2,6 +2,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/gary-image', '.' ]
 - name: 'gcr.io/cloud-builders/gcloud-slim'
-  args: [ 'compute', 'instances', 'reset', '--zone', 'us-central1-c', 'gary-template-5'  ]
+  args: [ 'compute', 'ssh', 'gary-template-5', '--zone=us-central1-c', '--command=sudo shutdown -r +1' ]
 images:
 - 'gcr.io/$PROJECT_ID/gary-image'
