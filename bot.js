@@ -58,9 +58,5 @@ controller.ready(() => {
 
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
-      
-    let bot = await controller.spawn();
-    await bot.startConversationInChannel('G239TENQN', 'D210P0ZPZ');
-    await bot.say('Gary Online.');
 
 });
