@@ -67,7 +67,7 @@ controller.ready(() => {
         await bot.startConversationInChannel("G239TENQN", "fakevalue");
         console.log("you");
         await bot.say('gary online.');
-    })()
+    })();
 });
 
 
