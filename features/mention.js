@@ -7,8 +7,8 @@ module.exports = function(controller) {
 
     // listen for direct_mention events
     controller.on('direct_mention', async(bot, message) => {
-        //await bot.reply(message, `I heard a direct mention that said "${ message.text }"`);
-        await bot.reply(message, "meow");
+        let meows = ['meow', 'mow', 'mrow', 'meown'];
+        await bot.reply(message, meows[Math.floor(Math.random() * meows.length)]);
     });
 
     // listen for mention events
