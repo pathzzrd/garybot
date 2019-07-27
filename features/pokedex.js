@@ -14,9 +14,11 @@ module.exports = function(controller) {
         let str = tokens.join(' ');
 
         let pokemans = new Pokedex();
-        let response = await pokemans.getPokemonByName(str);
+        let response = await pokemans.getPokemonSpeciesByName(str);
 
-        await bot.reply(message,{ text: response });
+        console.dir(response);
+
+        await bot.reply(message,{ text: response.flavor_text_entries[0].flavor_text });
     });
 
 }
