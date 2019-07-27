@@ -57,12 +57,17 @@ const controller = new Botkit({
 controller.ready(() => {
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
+  
+    // announce in #gary-testing that gary has been restarted.
+    async () => {
+        console.log("sup");
+        let bot = await controller.spawn();
+        console.log("at");
+        // if just using bot.say and not starting a dialog, can use a fake value for user id.
+        await bot.startConversationInChannel("G239TENQN", "fakevalue");
+        console.log("you");
+        await bot.say('gary online.');
+    }
 });
 
-// announce in #gary-testing that gary has been restarted.
-async () => {
-    let bot = await controller.spawn();
-    // if just using bot.say and not starting a dialog, can use a fake value for user id.
-    await bot.startConversationInChannel("G239TENQN", "G239TENQN");
-    await bot.say('gary online.');
-}
+
