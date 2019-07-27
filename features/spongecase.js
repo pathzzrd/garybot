@@ -5,7 +5,7 @@
 module.exports = function(controller) {
 
     // !spongecase
-    controller.hears(/^!spongecase$/i, ['message','direct_message'], async function(bot, message) {
+    controller.hears(/^!spongecase/i, ['message','direct_message'], async function(bot, message) {
         // removes command
         let str = message.text.split(' ').shift().join(' ');
 
