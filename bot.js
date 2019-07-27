@@ -59,11 +59,11 @@ controller.ready(() => {
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
 
-    // announce in #development that gary has been restarted.
-    let bot = controller.spawn()
-    async(bot) => {
+    // announce in #gary-testing that gary has been restarted.
+    async () => {
+        let bot = await controller.spawn();
         // if just using bot.say and not starting a dialog, can use a fake value for user id.
-        await bot.startConversationInChannel("G239TENQN", "");
+        await bot.startConversationInChannel("G239TENQN", "G239TENQN");
         await bot.say('gary online.');
     }
 });
