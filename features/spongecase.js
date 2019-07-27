@@ -7,7 +7,9 @@ module.exports = function(controller) {
     // !spongecase
     controller.hears(/^!spongecase/i, ['message','direct_message'], async function(bot, message) {
         // removes command
-        let str = message.text.split(' ').shift().join(' ');
+        let tokens = message.text.split(' ')
+        tokens.shift();
+        let str = tokens.join(' ');
 
         // here's the dang algorithm
         let counter = 0;
@@ -26,6 +28,7 @@ module.exports = function(controller) {
             }
         });
         spongeString = spongeArray.join('');
+
         await bot.reply(message,{ text: spongeString });
     });
 
