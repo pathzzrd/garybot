@@ -64,7 +64,7 @@ controller.ready(() => {
         let bot = await controller.spawn();
         console.log("at");
         // if just using bot.say and not starting a dialog, can use a fake value for user id.
-        await bot.startConversationInChannel("G239TENQN", "fakevalue");
+        await bot.startConversationInChannel("G239TENQN", "U210P0WA3");
         console.log("you");
         await bot.say('gary online.');
     })();
