@@ -59,7 +59,7 @@ controller.ready(() => {
     controller.loadModules(__dirname + '/features');
   
     // announce in #gary-testing that gary has been restarted.
-    async () => {
+    (async () => {
         console.log("sup");
         let bot = await controller.spawn();
         console.log("at");
@@ -67,7 +67,7 @@ controller.ready(() => {
         await bot.startConversationInChannel("G239TENQN", "fakevalue");
         console.log("you");
         await bot.say('gary online.');
-    }
+    })()
 });
 
 
