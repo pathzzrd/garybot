@@ -15,13 +15,13 @@ module.exports = function(controller) {
         let counter = 0;
         let spongeArray = [];
         str.split('').forEach((chr) => {
-            if (/A-Za-z/.test(chr)) {
+            if (/[A-Za-z]/.test(chr)) {
                 if (counter % 2 == 0) {
                     spongeArray.push(chr.toUpperCase());
                 } else {
                     spongeArray.push(chr.toLowerCase());
                 }
-                counter++;
+                counter = counter + 1;
 
             } else {
                 spongeArray.push(chr);
