@@ -60,12 +60,9 @@ controller.ready(() => {
   
     // announce in #gary-testing that gary has been restarted.
     (async () => {
-        console.log("sup");
         let bot = await controller.spawn("T210C9HCH");
-        console.log("at");
         // if just using bot.say and not starting a dialog, can use a fake value for user id.
         await bot.startConversationInChannel("G239TENQN", "U210P0WA3");
-        console.log("you");
         await bot.say('gary online.');
     })();
 });
