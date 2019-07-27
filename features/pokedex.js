@@ -17,12 +17,13 @@ module.exports = function(controller) {
 
         let descriptions = response.flavor_text_entries[0].flavor_text
         let POGEYMANS = "";
-        descriptions.forEach((description) => {
+        for (const description of descriptions) {
+            console.dir(description.language);
             if (description.language == "en") {
                 POGEYMANS = description.flavor_text;
                 break;
             }
-        });
+        };
 
         await bot.reply(message,{ text: POGEYMANS });
     });
