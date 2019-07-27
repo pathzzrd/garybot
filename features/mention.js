@@ -13,7 +13,14 @@ module.exports = function(controller) {
 
     // listen for mention events
     controller.on('mention', async(bot, message) => {
-        await bot.reply(message, `You mentioned me when you said "${ message.text }"`);
+        console.dir(message);
+        
+        let res = await bot.api.reaction.add({
+            name: "thumbsup",
+            channel: message.channel,
+            timestamp: message.timestamp,
+        });
+        //await bot.reply(message, `You mentioned me when you said "${ message.text }"`);
     });
 
 }
