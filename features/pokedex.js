@@ -1,6 +1,5 @@
 /**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
+ * Copyright (c) My Dick Corporation. All rights reserved.
  */
 module.exports = function(controller) {
 
@@ -16,9 +15,16 @@ module.exports = function(controller) {
         let pokemans = new Pokedex();
         let response = await pokemans.getPokemonSpeciesByName(str);
 
-        console.dir(response);
+        let descriptions = response.flavor_text_entries[0].flavor_text
+        let POGEYMANS = "";
+        descriptions.forEach((description) => {
+            if (description.language == "en") {
+                POGEYMANS = description.flavor_text;
+                break;
+            }
+        });
 
-        await bot.reply(message,{ text: response.flavor_text_entries[0].flavor_text });
+        await bot.reply(message,{ text: POGEYMANS });
     });
 
 }
