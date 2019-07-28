@@ -4,13 +4,7 @@
  */
 module.exports = function(controller) {
 
-    // !spongecase
-    controller.hears(/^!spongecase/i, ['message','direct_message'], async function(bot, message) {
-        // removes command
-        let tokens = message.text.split(' ')
-        tokens.shift();
-        let str = tokens.join(' ');
-
+    const spongeCase = (text) => {
         // here's the dang algorithm
         let counter = 0;
         let spongeArray = [];
@@ -28,8 +22,27 @@ module.exports = function(controller) {
             }
         });
         spongeString = spongeArray.join('');
+        return spongeString;
+    }
 
-        await bot.reply(message,{ text: spongeString });
+    // !spongecase
+    controller.hears(/^!spongecase/i, ['message','direct_message'], async function(bot, message) {
+        // removes command
+        let tokens = message.text.split(' ')
+        tokens.shift();
+        let str = tokens.join(' ');
+
+        await bot.reply(message,{ text: spongeCase(str) });
     });
+
+    // randomly spongecase things sometimes because CHAOS ENERGY
+    controller.on('message', async function(bot, message) {
+        let chance = Math.floor(Math.random() * 1000);
+        if (chance > 950) {
+            await bot.reply(message,{ text: spongeCase(message.text) });
+        }
+    });
+
+
 
 }
