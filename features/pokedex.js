@@ -19,7 +19,7 @@ module.exports = function(controller) {
         let POGEYMANS = "";
         for (const description of descriptions) {
             console.dir(description.language);
-            if (description.language == "en") {
+            if (description.language.name == "en") {
                 POGEYMANS = description.flavor_text;
                 break;
             }
