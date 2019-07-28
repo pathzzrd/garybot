@@ -8,7 +8,7 @@ module.exports = function(controller) {
         // here's the dang algorithm
         let counter = 0;
         let spongeArray = [];
-        str.split('').forEach((chr) => {
+        text.split('').forEach((chr) => {
             if (/[A-Za-z]/.test(chr)) {
                 if (counter % 2 == 0) {
                     spongeArray.push(chr.toUpperCase());
