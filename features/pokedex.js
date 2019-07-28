@@ -10,7 +10,7 @@ module.exports = function(controller) {
         // removes command
         let tokens = message.text.split(' ')
         tokens.shift();
-        let str = tokens.join(' ');
+        let str = tokens.join(' ').trim().toLowerCase();
 
         let pokemans = new Pokedex();
         let response = await pokemans.getPokemonSpeciesByName(str);
