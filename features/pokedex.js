@@ -15,7 +15,7 @@ module.exports = function(controller) {
         let pokemans = new Pokedex();
         let response = await pokemans.getPokemonSpeciesByName(str);
 
-        let descriptions = response.flavor_text_entries[0].flavor_text
+        let descriptions = response.flavor_text_entries
         let POGEYMANS = "";
         for (const description of descriptions) {
             console.dir(description.language);
