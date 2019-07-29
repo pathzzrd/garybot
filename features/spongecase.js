@@ -38,7 +38,7 @@ module.exports = function(controller) {
     // randomly spongecase things sometimes because CHAOS ENERGY
     controller.on('message', async function(bot, message) {
         let chance = Math.floor(Math.random() * 1000);
-        if (chance > 950) {
+        if (chance => 980) {
             await bot.reply(message,{ text: spongeCase(message.text) });
         }
     });
