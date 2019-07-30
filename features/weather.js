@@ -30,7 +30,7 @@ module.exports = function(controller) {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `Weather for *${data.name}*\n${data.temperature.value}ºC ${data.weather.description}\n`
+                        "text": `Weather for *${data.name}*\n${data.main.temp}ºC ${data.weather.description}\n`
                     },
                     "accessory": {
                         "type": "image",
