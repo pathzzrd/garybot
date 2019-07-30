@@ -2,7 +2,7 @@
 // |__) /  \  |  |__/ |  |
 // |__) \__/  |  |  \ |  |
 
-// This is the main file for the gary bot. 
+// This is the main file for the gary bot.
 
 // Import Botkit's core features
 const { Botkit } = require('botkit');
@@ -13,6 +13,8 @@ const { BotkitCMSHelper } = require('botkit-plugin-cms');
 const { SlackAdapter, SlackMessageTypeMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
+
+const Mongo = require('libs/mongo');
 
 // Load process.env values from .env file
 require('dotenv').config();
@@ -57,14 +59,23 @@ const controller = new Botkit({
 controller.ready(() => {
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
-  
+
     // announce in #gary-testing that gary has been restarted.
     (async () => {
+
         let bot = await controller.spawn("T210C9HCH");
         // if just using bot.say and not starting a dialog, can use a fake value for user id.
         await bot.startConversationInChannel("G239TENQN", "U210P0WA3");
+
+        try {
+          const client = await Mongo.connect(process.env.MONGO_URI);
+          db.metrics.update( { name: "gary" }, { $inc: { deploys: 1 } }, {upsert: true} );
+        } catch (e) {
+            await bot.say('Error connecting to mongo');
+            await bot.say(e);
+        }
+
+
         await bot.say('gary online.');
     })();
 });
-
-
