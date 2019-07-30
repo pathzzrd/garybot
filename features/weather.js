@@ -21,13 +21,13 @@ module.exports = function(controller) {
 
         console.dir(data);
 
+        let text = `Weather for`
+
         await bot.reply(message,{
             blocks: [
                 {
-                    "type": "divider"
-                },
-                {
                     "type": "section",
+                    "block_id": "Weather123",
                     "text": {
                         "type": "mrkdwn",
                         "text": `Weather for *${data.name}*\n${data.main.temp}ºC ${data.weather.description}\n`
