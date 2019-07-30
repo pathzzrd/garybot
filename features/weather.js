@@ -27,15 +27,9 @@ module.exports = function(controller) {
             blocks: [
                 {
                     "type": "section",
-                    "block_id": "Weather123",
                     "text": {
                         "type": "mrkdwn",
                         "text": text
-                    },
-                    "accessory": {
-                        "type": "image",
-                        "image_url": image_url,
-                        "alt_text": alt_text
                     }
                 }
             ]
