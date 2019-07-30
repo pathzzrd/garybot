@@ -69,7 +69,7 @@ controller.ready(() => {
 
         try {
           const client = await Mongo.connect(process.env.MONGO_URI);
-          db.metrics.update( { name: "gary" }, { $inc: { deploys: 1 } }, {upsert: true} );
+          client.metrics.update( { name: "gary" }, { $inc: { deploys: 1 } }, {upsert: true} );
         } catch (e) {
             await bot.say('Error connecting to mongo');
             await bot.say(e);
