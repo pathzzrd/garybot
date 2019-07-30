@@ -19,7 +19,7 @@ module.exports = function(controller) {
         let response = await fetch(`${uri}?q=${str}&APPID=${process.env.openWeatherApiKey}&units=metric`);
         let data = await response.json();
 
-
+        console.dir(data);
 
         await bot.reply(message,{
             blocks: [
