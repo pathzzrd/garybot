@@ -17,6 +17,7 @@ module.exports = function(controller){
     tokens.shift();
     let str = tokens.join(' ');
 
+    console.log("henlo");
     let response = await fetch(uri);
     let data = await response.json();
     let compliment = data.compliment;
