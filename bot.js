@@ -70,8 +70,11 @@ controller.ready(() => {
         try {
           console.log("connecting");
           const client = await Mongo.connect(process.env.MONGO_URI);
-          await client.metrics.update( { name: "gary" }, { $inc: { deploys: 1 } }, {upsert: true} );
+          const db = client.db("gary");
+
+          await db.collection('metrics').updateOne({name: "gary" }, { "$inc": {deploys: 1}},  {upsert:true});
           console.log("updated metrics!");
+          console.log(await db.collection('metrics').findOne({name: 'gary'}));
         } catch (e) {
             await bot.say('Error connecting to mongo');
             console.log(e);

@@ -8,8 +8,8 @@ module.exports = function(controller) {
     // !pokemon
     controller.hears(/^!debug/i, ['message','direct_message'], async function(bot, message) {
         const client = Mongo.client();
-
-        const gary = client.metrics.find({name:'gary'})
+        const db = client.db("gary");
+        const gary = db.collection("metrics").findOne({name:'gary'})
         await bot.reply(message, {text: 'Deploys ' + gary.deploys});
       
     });
