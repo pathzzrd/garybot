@@ -68,11 +68,13 @@ controller.ready(() => {
         await bot.startConversationInChannel("G239TENQN", "U210P0WA3");
 
         try {
+          console.log("connecting");
           const client = await Mongo.connect(process.env.MONGO_URI);
-          client.metrics.update( { name: "gary" }, { $inc: { deploys: 1 } }, {upsert: true} );
+          await client.metrics.update( { name: "gary" }, { $inc: { deploys: 1 } }, {upsert: true} );
+          console.log("updated metrics!");
         } catch (e) {
             await bot.say('Error connecting to mongo');
-            await bot.say(e);
+            console.log(e);
         }
 
 
