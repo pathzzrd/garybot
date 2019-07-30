@@ -13,7 +13,7 @@ module.exports = function(controller) {
 
     // listen for mention events
     controller.on('mention', async(bot, message) => {
-        let reactji = [ 'thumbsup', 'vince', 'joy_cat', 'carrot-this', 'this', 'eyes' ];
+        let reactji = [ 'thumbsup', 'vince', 'joy_cat', 'carrot-this', 'this', 'eyes', 'heart' ];
         let res = await bot.api.reactions.add({
             name: reactji[Math.floor(Math.random() * reactji.length)],
             channel: message.channel,
