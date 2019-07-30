@@ -14,7 +14,7 @@ const { SlackAdapter, SlackMessageTypeMiddleware, SlackEventMiddleware } = requi
 
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
-const Mongo = require('libs/mongo');
+const Mongo = require('./lib/mongo');
 
 // Load process.env values from .env file
 require('dotenv').config();
