@@ -1,7 +1,7 @@
 
 /**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
+ * copyright (c) my diq 
+ * licensed under the  my bolls.
  */
 module.exports = function(controller) {
 
