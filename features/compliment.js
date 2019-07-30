@@ -8,10 +8,10 @@ module.exports = function(controller){
 
   const fetch = require('node-fetch');
 
-  const uri = "https://complimentr.com/api"
+  const uri = 'https://complimentr.com/api'
 
-  // !compliment
-  controller.hears(/^!compliment/i, async function(bot, message) {
+  // compliment
+  controller.hears(['compliment'], async function(bot, message) {
     // // removes command
     // let tokens = message.text.split(' ')
     // tokens.shift();
