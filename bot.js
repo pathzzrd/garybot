@@ -14,7 +14,7 @@ const { SlackAdapter, SlackMessageTypeMiddleware, SlackEventMiddleware } = requi
 
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
-const Mongo = require('./lib/mongo');
+const GaryOnReady = require('./lib/controller');
 
 // Load process.env values from .env file
 require('dotenv').config();
@@ -56,7 +56,9 @@ const controller = new Botkit({
 });
 
 // Once the bot has booted up its internal services, you can use them to do stuff.
-controller.ready(() => {
+controller.ready(GaryOnReady.ready(controller, __dirname));
+
+/*() => {
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
 
@@ -81,3 +83,4 @@ controller.ready(() => {
         await bot.say('gary online.');
     })();
 });
+*/
