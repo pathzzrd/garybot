@@ -19,7 +19,8 @@ module.exports = function(controller) {
         let response = await fetch(`${uri}?q=${str}&APPID=${process.env.openWeatherApiKey}&units=metric`);
         let data = await response.json();
 
-        let text = `Weather for ${data.name}\n\n*${data.main.temp}ºC - ${data.weather[0].description}*`;
+        let far = data.main.temp * (9/5) + 32;
+        let text = `${data.name} - ${data.weather[0].description}\n\n*${data.main.temp}ºC / ${far}ºF*\n ${data.main.humidity}% humidity`;
         let image_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
         let alt_text = `${data.weather[0].main}`;
 
