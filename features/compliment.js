@@ -11,13 +11,12 @@ module.exports = function(controller){
   const uri = "https://complimentr.com/api"
 
   // !compliment
-  controller.hears(/^!compliment/i, async function(bot, message) {
+  controller.hears(/^!compliment/i, ['message', 'direct_message'], async function(bot, message) {
     // removes command
     let tokens = message.text.split(' ');
     tokens.shift();
     let str = tokens.join(' ');
 
-    console.log("henlo");
     let response = await fetch(uri);
     let data = await response.json();
     let compliment = data.compliment;
