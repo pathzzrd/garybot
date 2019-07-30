@@ -19,9 +19,9 @@ module.exports = function(controller) {
         let response = await fetch(`${uri}?q=${str}&APPID=${process.env.openWeatherApiKey}&units=metric`);
         let data = await response.json();
 
-        let text = `Weather for *${data.name}*\n${data.main.temp}ºC ${data.weather.description}`;
-        let image_url = `http://openweathermap.org/img/wn/${data.weather.icon}@2x.png`;
-        let alt_text = `${data.weather.main}`;
+        let text = `Weather for ${data.name}\n\n*${data.main.temp}ºC - ${data.weather[0].description}*`;
+        let image_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        let alt_text = `${data.weather[0].main}`;
 
         await bot.reply(message,{
             blocks: [
@@ -30,6 +30,11 @@ module.exports = function(controller) {
                     "text": {
                         "type": "mrkdwn",
                         "text": text
+                    },
+                    "accessory": {
+                        "type": "image",
+                        "image_url": image_url,
+                        "alt_text": alt_text
                     }
                 }
             ]
