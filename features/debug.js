@@ -9,7 +9,7 @@ module.exports = function(controller) {
     controller.hears(/^!debug/i, ['message','direct_message'], async function(bot, message) {
         const client = Mongo.client();
         const db = client.db("gary");
-        const gary = db.collection("metrics").findOne({name:'gary'})
+        const gary = await db.collection("metrics").findOne({name:'gary'})
         await bot.reply(message, {text: 'Deploys ' + gary.deploys});
       
     });
