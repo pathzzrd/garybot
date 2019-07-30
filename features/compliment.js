@@ -8,20 +8,20 @@ module.exports = function(controller){
 
   const fetch = require('node-fetch');
 
-  const uri = 'https://complimentr.com/api'
+  const uri = "https://complimentr.com/api"
 
-  // compliment
-  controller.hears(['compliment'], async function(bot, message) {
-    // // removes command
-    // let tokens = message.text.split(' ')
-    // tokens.shift();
-    // let str = tokens.join(' ');
+  // !compliment
+  controller.hears(/^!compliment/i, async function(bot, message) {
+    // removes command
+    let tokens = message.text.split(' ')
+    tokens.shift();
+    let str = tokens.join(' ');
 
     let response = await fetch(`${uri}`)
     let data = await response.json();
-    // let compliment = `${data.compliment}`
+    let compliment = `${data.compliment}`
 
-    await bot.reply(message, { text: data.compliment } )
+    await bot.reply(message, { text: compliment })
   })
 }
 
