@@ -19,9 +19,9 @@ module.exports = function(controller) {
         let response = await fetch(`${uri}?q=${str}&APPID=${process.env.openWeatherApiKey}&units=metric`);
         let data = await response.json();
 
-        console.dir(data);
-
-        let text = `Weather for`
+        let text = `Weather for *${data.name}*\n${data.main.temp}ºC ${data.weather.description}`;
+        let image_url = `http://openweathermap.org/img/wn/${data.weather.icon}@2x.png`;
+        let alt_text = `${data.weather.main}`;
 
         await bot.reply(message,{
             blocks: [
@@ -30,12 +30,12 @@ module.exports = function(controller) {
                     "block_id": "Weather123",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `Weather for *${data.name}*\n${data.main.temp}ºC ${data.weather.description}\n`
+                        "text": text
                     },
                     "accessory": {
                         "type": "image",
-                        "image_url": `http://openweathermap.org/img/wn/${data.weather.icon}@2x.png`,
-                        "alt_text": `${data.weather.main}`
+                        "image_url": image_url,
+                        "alt_text": alt_text
                     }
                 }
             ]
