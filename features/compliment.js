@@ -21,7 +21,7 @@ module.exports = function(controller){
     let data = await response.json();
     let compliment = `${data.compliment}`
 
-    await bot.reply(message, compliment)
+    await bot.reply(message, { text: compliment })
   })
 }
 
