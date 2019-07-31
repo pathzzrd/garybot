@@ -5,15 +5,20 @@
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "find ./tests/ -name '*.test.js' | xargs mocha -t 2000 -R spec --exit"
   },
   "dependencies": {
     "botbuilder-adapter-slack": "^1.0.2",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botkit": "^4.0.1",
+    "botkit-mock": "^0.1.11",
     "botkit-plugin-cms": "^1.0.0",
     "dotenv": "^7.0.0",
     "mongodb": "^3.3.0-beta2",
     "pokedex-promise-v2": "^3.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
   }
 }
