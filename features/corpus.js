@@ -18,9 +18,13 @@ module.exports = (controller) =>{
         try {
           const result = await Process.execute('python', ['/gary/scripts/brain.py', ""+str]);
           console.log("result " , result);
-          const items = result.split("\n");
-          console.log("items " , items);
-          response = items[0];
+          const items = result.stdout.split("\n");
+          for(i in items) {
+            if (i !== 'None') {
+              response = i;
+              break;
+            }
+          }
         } catch (e) {
           console.log(e);
           response = "brain fault";
