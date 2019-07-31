@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
-    "test": "find ./tests/ -name '*.test.js' | xargs mocha -t 2000 -R spec --exit"
+    "test": "find ./tests/ -name '*.test.js' | xargs mocha -t 9000 -R spec --exit"
   },
   "dependencies": {
     "botbuilder-adapter-slack": "^1.0.2",
