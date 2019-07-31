@@ -18,7 +18,7 @@ describe('Corpus command tests', () => {
   });
 
 
-  it('responds with a jons brain mock', async(done) => {
+  it('responds with a jons brain mock', async() => {
     try {
     const message = await this.bot.usersInput(
       [
@@ -35,11 +35,8 @@ describe('Corpus command tests', () => {
     );
     console.log(message.text);
     expect(message.text).to.equal(undefined);
-    done();
     } catch (err) {
       console.log(err);
-      done(err);
-      return false;
     }
     return;
   });
