@@ -20,8 +20,8 @@ module.exports = (controller) =>{
           console.log("result " , result);
           const items = result.stdout.split("\n");
           for(i in items) {
-            if (i !== 'None') {
-              response = i;
+            if (items[i] !== 'None') {
+              response = items[i];
               break;
             }
           }

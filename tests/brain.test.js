@@ -10,6 +10,15 @@ describe("Brain Test", () => {
       const result = await Process.execute('python', ['/gary/scripts/brain.py', "hell world"]);
       console.log(result);
       expect (result.stdout).to.not.be.null;
+      const items = result.stdout.split("\n");
+      console.log(items);
+      for (i in items) {
+        if (items[i] !== 'None') {
+          response = items[i]; 
+          break;
+        }
+      }
+      console.log('response', response);
     } catch (err) {
       console.log(err);
       expect(err).to.be.null;
