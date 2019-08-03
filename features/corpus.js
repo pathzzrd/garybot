@@ -16,7 +16,7 @@ module.exports = (controller) =>{
         }
         let response = "";
         console.log("calling corpus with " + str);
-        var args = ['/gary/scripts/brain.py', '"' + escapeShellArg(str) + '"'];
+        var args = ['/gary/scripts/brain.py', "'" + str + "'"];
         
         if (message.channel == "C31LEHN05") { // politics
           args.append("on");
