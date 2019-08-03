@@ -19,7 +19,7 @@ module.exports = (controller) =>{
         var args = ['/gary/scripts/brain.py', "'" + str + "'"];
         
         if (message.channel == "C31LEHN05") { // politics
-          args.append("on");
+          args.push("on");
         }
         
         try {
