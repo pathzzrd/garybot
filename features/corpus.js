@@ -1,5 +1,6 @@
 
 const Process = require('../lib/sub_process');
+
 /**
  * Copyright (c) My Dick Corporation. All rights reserved.
  */
@@ -15,8 +16,14 @@ module.exports = (controller) =>{
         }
         let response = "";
         console.log("calling corpus with " + str);
+        var args = ['/gary/scripts/brain.py', '"' + escapeShellArg(str) + '"'];
+        
+        if (message.channel == "C31LEHN05") { // politics
+          args.append("on");
+        }
+        
         try {
-          const result = await Process.execute('python', ['/gary/scripts/brain.py', ""+str]);
+          const result = await Process.execute('python', args);
           console.log("result " , result);
           const items = result.stdout.split("\n");
           for(i in items) {
@@ -36,4 +43,9 @@ module.exports = (controller) =>{
         await bot.reply(message, { text: response });
     });
 
+}
+
+
+function escapeShellArg (arg) {
+    return `'${arg.replace(/'/g, `'\\''`)}'`;
 }
