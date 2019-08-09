@@ -24,7 +24,7 @@ module.exports = function(controller) {
         } else {
 
             let far = data.main.temp * (9/5) + 32;
-            let text = `${data.name} - ${data.weather[0].description}\n\n*${data.main.temp}ºC / ${far}ºF*\n ${data.main.humidity}% humidity`;
+            let text = `${data.name} - ${data.weather[0].description}\n\n*${data.main.temp}ºC / ${far.toFixed(2)}ºF*\n ${data.main.humidity}% humidity`;
             let image_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
             let alt_text = `${data.weather[0].main}`;
 
