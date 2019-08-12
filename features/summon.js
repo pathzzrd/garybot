@@ -17,12 +17,29 @@ module.exports = function(controller) {
         tokens.shift();
         let str = tokens.join(' ');
 
-        let response = await fetch ("https://www.google.com/search?q=beans&tbm=isch", { headers: {"User-Agent": useragent }})
+        let response = await fetch (`https://www.google.com/search?q=${encodeURI(str)}&tbm=isch`, { headers: {"User-Agent": useragent }})
         let html = await response.text()
         dom = new JSDOM(html)
         let imageurl = JSON.parse(dom.window.document.getElementsByClassName('rg_meta').item(0).innerHTML).ou;
 
-        await bot.reply(message,{ text: imageurl });
+        await bot.reply(message,{ blocks: [
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": `*SUMMONED ${str.toUpperCase()}*`
+                }
+            },
+            {
+                "type": "image",
+                "title": {
+                    "type": "plain_text",
+                    "text": `${str.toUpperCase()}`
+                },
+                "image_url": imageurl,
+                "alt_text": `${str.toUpperCase()}`
+            }
+        ]});
     });
 
 }
