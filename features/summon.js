@@ -19,7 +19,7 @@ module.exports = function(controller) {
 
         let response = await fetch (`https://www.google.com/search?q=${encodeURI(str)}&tbm=isch`, { headers: {"User-Agent": useragent }})
         let html = await response.text()
-        dom = new JSDOM(html)
+        let dom = new JSDOM(html)
         let imageurl = JSON.parse(dom.window.document.getElementsByClassName('rg_meta').item(0).innerHTML).ou;
 
         await bot.reply(message,{ blocks: [
